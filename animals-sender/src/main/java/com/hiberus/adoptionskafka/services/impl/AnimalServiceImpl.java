@@ -18,7 +18,7 @@ import java.util.UUID;
 public class AnimalServiceImpl implements AnimalService {
 
     @Value("${environment.alumno-topic}")
-    private  String animalTopic;
+    private String animalTopic;
     @Autowired
     AnimalMapper animalMapper;
 
