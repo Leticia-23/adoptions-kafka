@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 8082
 
 spring:
   application:
-    name: enviador-alumnos
+    name: animals-sender
   kafka:
     bootstrap-servers: ${kafka:localhost}:29092
     producer:
@@ -13,4 +13,4 @@ spring:
         schema.registry.url: http://${schema-registry:localhost}:8081
 
 environment:
-  alumno-topic: alumnos
+  animals-topic: animals
