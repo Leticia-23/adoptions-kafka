@@ -17,7 +17,7 @@ import java.util.UUID;
 @Slf4j
 public class AnimalServiceImpl implements AnimalService {
 
-    @Value("${environment.alumno-topic}")
+    @Value("${environment.animals-topic}")
     private String animalTopic;
     @Autowired
     AnimalMapper animalMapper;
