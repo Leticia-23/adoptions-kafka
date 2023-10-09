@@ -1,8 +1,12 @@
 package com.hiberus.adoptionskafka.dto;
 
-import lombok.Data;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Data
+@Getter
+@AllArgsConstructor
+@NoArgsConstructor
 public class AnimalDto {
     String name;
     String specie;
