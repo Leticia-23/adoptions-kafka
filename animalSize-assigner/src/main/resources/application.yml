@@ -1,0 +1,23 @@
+server:
+  port: 8083
+
+spring:
+  application:
+    name: animalSize-assigner
+  kafka:
+    bootstrap-servers: ${kafka:localhost}:9092
+    consumer:
+      group-id: ${spring.application.name}
+      auto-offset-reset: earliest
+      properties:
+        key.deserializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer
+        value.deserializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroDeserializer
+        schema.registry.url: http://${schema-registry:localhost}:8081
+    producer:
+      properties:
+        key.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
+        value.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
+        schema.registry.url: http://${schema-registry:localhost}:8081
+
+environment:
+  animals-size-topic: animalSize-assigned

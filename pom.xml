@@ -16,6 +16,7 @@
 	<description>Demo project for Spring Boot</description>
 	<modules>
 		<module>animals-sender</module>
+		<module>animalSize-assigner</module>
 	</modules>
 	<properties>
 		<java.version>17</java.version>

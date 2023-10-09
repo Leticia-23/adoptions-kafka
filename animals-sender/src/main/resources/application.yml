@@ -12,12 +12,5 @@ spring:
         value.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
         schema.registry.url: http://${schema-registry:localhost}:8081
 
-springdoc:
-  api-docs:
-    enabled: true
-  swagger-ui:
-    enabled: true
-
-
 environment:
   animals-topic: animals

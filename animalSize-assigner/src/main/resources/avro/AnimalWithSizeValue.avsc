@@ -1,0 +1,55 @@
+{
+  "type": "record",
+  "namespace": "com.hiberus.adoptionskafka.avro",
+  "name": "AnimalWithSizeValue",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "specie",
+      "type": "string"
+    },
+    {
+      "name": "breed",
+      "type": ["null", "string"]
+    },
+    {
+      "name": "sex",
+      "type": "string"
+    },
+    {
+      "name": "weight",
+      "type": "float"
+    },
+    {
+      "name": "size",
+      "type": "string"
+    },
+    {
+      "name": "color",
+      "type": "string"
+    },
+    {
+      "name": "dangerous",
+      "type": "boolean"
+    },
+    {
+      "name": "sterile",
+      "type": "boolean"
+    },
+    {
+      "name": "adopted",
+      "type": "boolean"
+    },
+    {
+      "name": "idInstitution",
+      "type": "string"
+    }
+  ]
+}
