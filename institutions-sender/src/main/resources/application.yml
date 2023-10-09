@@ -1,0 +1,16 @@
+server:
+  port: 8084
+
+spring:
+  application:
+    name: institutions-sender
+  kafka:
+    bootstrap-servers: ${kafka:localhost}:9092
+    producer:
+      properties:
+        key.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
+        value.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
+        schema.registry.url: http://${schema-registry:localhost}:8081
+
+environment:
+  institutions-topic: institutions
