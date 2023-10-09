@@ -36,8 +36,7 @@ public class AnimalServiceImpl implements AnimalService {
         AnimalKey animalKey = AnimalKey.newBuilder().setId(uuid).build();
         AnimalValue animalValue = animalMapper.dtoToEntity(animal, uuid);
 
-        log.debug("Sending animal to animas topic");
+        log.info("Sending animal to animas topic");
         kafkaTemplate.send(animalTopic,animalKey,animalValue);
-
     }
 }

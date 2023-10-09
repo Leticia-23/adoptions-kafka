@@ -23,7 +23,7 @@ public class AnimalControlerImpl implements AnimalControler {
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void createAnimal(@Valid @RequestBody AnimalDto animalDto) {
-        log.debug("Receive http petition for create animal");
+        log.info("Receive http petition for create animal");
         animalService.createAnimal(animalDto);
     }
 

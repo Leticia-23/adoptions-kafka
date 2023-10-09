@@ -65,6 +65,12 @@
             <version>1.18.24</version>
             <scope>compile</scope>
         </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
+
         <dependency>
             <groupId>org.springdoc</groupId>
             <artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
@@ -81,21 +87,19 @@
             <artifactId>mapstruct-processor</artifactId>
             <version>1.5.5.Final</version>
         </dependency>
+
+
     </dependencies>
 
     <build>
         <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
             <plugin>
                 <groupId>org.apache.avro</groupId>
                 <artifactId>avro-maven-plugin</artifactId>
                 <configuration>
                     <stringType>String</stringType>
                 </configuration>
-                <version>${avro.version}</version>
+                <version>1.11.1</version>
                 <executions>
                     <execution>
                         <id>schemas</id>
@@ -104,7 +108,7 @@
                             <goal>schema</goal>
                         </goals>
                         <configuration>
-                            <sourceDirectory>${project.basedir}/src/main/resources/avro</sourceDirectory>
+                            <sourceDirectory>src/main/resources/avro</sourceDirectory>
                             <fieldVisibility>PRIVATE</fieldVisibility>
                         </configuration>
                     </execution>
@@ -113,19 +117,19 @@
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
+                <version>3.2.0</version>
                 <executions>
                     <execution>
                         <phase>process-resources</phase>
                         <configuration>
                             <sources>
-                                <source>${project.basedir}/target/generated-sources/avro</source>
+                                <source>src/main/resources/avro/generated-sources</source>
                             </sources>
                         </configuration>
                     </execution>
                 </executions>
             </plugin>
         </plugins>
-
     </build>
 
 </project>
