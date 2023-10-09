@@ -1,12 +1,11 @@
-package com.hiberus.adoptionskafka.controllers;
+package com.hiberus.adoptionskafka.controlers;
 
 import com.hiberus.adoptionskafka.dto.AnimalDto;
-import io.swagger.v3.oas.annotations.*;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
 
-public interface AnimalController {
+public interface AnimalControler {
 
     @Operation(summary = "Create animal")
     @ApiResponse(responseCode = "202", description = "Request accepted")

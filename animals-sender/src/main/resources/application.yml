@@ -5,12 +5,19 @@ spring:
   application:
     name: animals-sender
   kafka:
-    bootstrap-servers: ${kafka:localhost}:29092
+    bootstrap-servers: ${kafka:localhost}:9092
     producer:
       properties:
         key.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
         value.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
         schema.registry.url: http://${schema-registry:localhost}:8081
+
+springdoc:
+  api-docs:
+    enabled: true
+  swagger-ui:
+    enabled: true
+
 
 environment:
   animals-topic: animals

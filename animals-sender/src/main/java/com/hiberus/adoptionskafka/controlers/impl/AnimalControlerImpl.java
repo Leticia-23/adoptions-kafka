@@ -1,8 +1,9 @@
-package com.hiberus.adoptionskafka.controllers.impl;
+package com.hiberus.adoptionskafka.controlers.impl;
 
-import com.hiberus.adoptionskafka.controllers.AnimalController;
+import com.hiberus.adoptionskafka.controlers.AnimalControler;
 import com.hiberus.adoptionskafka.dto.AnimalDto;
 import com.hiberus.adoptionskafka.services.AnimalService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +11,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 @Slf4j
+@Tag(name = "Animals API")
 @RestController
 @RequestMapping(value = "/animals")
-public class AnimalControllerImpl implements AnimalController {
+public class AnimalControlerImpl implements AnimalControler {
 
     @Autowired
     AnimalService animalService;
@@ -24,6 +26,5 @@ public class AnimalControllerImpl implements AnimalController {
         log.debug("Receive http petition for create animal");
         animalService.createAnimal(animalDto);
     }
-
 
 }
