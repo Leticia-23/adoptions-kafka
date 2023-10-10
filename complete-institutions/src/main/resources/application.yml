@@ -1,0 +1,48 @@
+server.port: 8086
+
+topic-in-0: institutions-animal
+topic-out-0: complete-institutions-info
+
+spring:
+  application.name: complete-institutions
+
+  cloud:
+
+    function.definition: aggregateAnimals;
+
+    stream:
+
+      bindings:
+        aggregateAnimals-in-0:
+          destination: ${topic-in-0}
+          consumer:
+            concurrency: 1
+            useNativeDecoding: true
+        aggregateAnimals-out-0:
+          destination: ${topic-out-0}
+          producer.useNativeEncoding: true
+
+      kafka:
+        binder:
+          # Docker
+          # brokers: ${kafka:localhost}:29092
+          # Local
+          brokers: ${kafka:localhost}:9092
+
+      kafka.streams:
+
+        bindings:
+          aggregateAnimals-in-0:
+            consumer:
+              keySerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+              valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+              applicationId: ${spring.application.name}
+
+        binder:
+          configuration:
+            commit.interval.ms: 100
+            session.timeout.ms: 10000
+            schema.registry.url: http://${schema-registry:localhost}:8081
+            auto.register.schemas: true
+            default.key.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+            default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
