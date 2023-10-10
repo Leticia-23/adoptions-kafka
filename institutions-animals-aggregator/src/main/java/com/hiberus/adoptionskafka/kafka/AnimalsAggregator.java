@@ -27,7 +27,7 @@ public class AnimalsAggregator {
     InitializerAnimalsList initializerAnimalsList;
 
     @Bean
-    public Function<KStream<InstitutionKey, InstitutionAnimalValue>, KStream<InstitutionKey, InstitutionAnimalsValue>> aggregateMessages() {
+    public Function<KStream<InstitutionKey, InstitutionAnimalValue>, KStream<InstitutionKey, InstitutionAnimalsValue>> aggregateAnimals() {
         return institutionsStream -> institutionsStream
                 .peek((k, v) -> log.info("[aggregateMessages] Received message with key: {} and value {}", k, v))
                 .selectKey((k, v) -> InstitutionKey.newBuilder().setId(k.getId()).build())
