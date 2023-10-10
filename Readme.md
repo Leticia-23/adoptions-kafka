@@ -11,3 +11,4 @@ Kafka project for Microservices Hiberus University
 
 - Animals API: http://localhost:8082/swagger-ui.html
 - Institutions API: http://localhost:8084/swagger-ui.html
+- Redpanda: http://localhost:8080

@@ -18,7 +18,7 @@
 		<module>animals-sender</module>
 		<module>animalSize-assigner</module>
 		<module>institutions-sender</module>
-        <module>institutions-animals-leftjoin</module>
+        <module>institution-animal-leftjoin</module>
     </modules>
 	<properties>
 		<java.version>17</java.version>

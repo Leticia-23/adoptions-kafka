@@ -2,10 +2,10 @@ server.port: 8085
 
 topic-in-0: institutions
 topic-in-1: animalSize-assigned
-topic-out-0: institutions-animals
+topic-out-0: institutions-animal
 
 spring:
-  application.name: institutions-animals-leftjoin
+  application.name: institution-animal-leftJoin
 
   cloud:
 

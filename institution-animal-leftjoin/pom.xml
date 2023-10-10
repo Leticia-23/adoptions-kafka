@@ -7,7 +7,7 @@
     <version>0.0.1-SNAPSHOT</version>
   </parent>
   <groupId>org.example</groupId>
-  <artifactId>institutions-animals-leftjoin</artifactId>
+  <artifactId>institution-animal-leftjoin</artifactId>
   <name>Archetype - institutions-animals</name>
   <url>http://maven.apache.org</url>
 
