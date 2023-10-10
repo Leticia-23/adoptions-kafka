@@ -1,0 +1,11 @@
+{
+  "type": "record",
+  "namespace": "com.hiberus.adoptionskafka.avro",
+  "name": "InstitutionKey",
+  "fields": [
+    {
+      "name": "id",
+      "type": "string"
+    }
+  ]
+}
