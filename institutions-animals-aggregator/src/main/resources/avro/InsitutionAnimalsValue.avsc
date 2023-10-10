@@ -1,0 +1,98 @@
+{
+  "type": "record",
+  "namespace": "com.hiberus.adoptionskafka.avro",
+  "name": "InstitutionAnimalsValue",
+  "fields": [
+    {
+      "name": "idInstitution",
+      "type": "string"
+    },
+    {
+      "name": "name",
+      "type": "string"
+    },
+    {
+      "name": "email",
+      "type": "string"
+    },
+    {
+      "name": "address",
+      "type": "string"
+    },
+    {
+      "name": "phoneNumber",
+      "type": "string"
+    },
+    {
+      "name": "webURL",
+      "type": "string"
+    },
+    {
+      "name": "information",
+      "type": "string"
+    },
+    {
+      "name": "animals",
+      "type": [
+        "null",
+        {
+          "type": "array",
+          "items": {
+            "type": "record",
+            "namespace": "com.hiberus.adoptionskafka.avro",
+            "name": "Animal",
+            "fields": [
+              {
+                "name": "idAnimal",
+                "type": "string"
+              },
+              {
+                "name": "animalName",
+                "type": "string"
+              },
+              {
+                "name": "specie",
+                "type": "string"
+              },
+              {
+                "name": "breed",
+                "type": [
+                  "null",
+                  "string"
+                ]
+              },
+              {
+                "name": "sex",
+                "type": "string"
+              },
+              {
+                "name": "weight",
+                "type": "float"
+              },
+              {
+                "name": "size",
+                "type": "string"
+              },
+              {
+                "name": "color",
+                "type": "string"
+              },
+              {
+                "name": "dangerous",
+                "type": "boolean"
+              },
+              {
+                "name": "sterile",
+                "type": "boolean"
+              },
+              {
+                "name": "adopted",
+                "type": "boolean"
+              }
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}

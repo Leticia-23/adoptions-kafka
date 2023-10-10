@@ -8,7 +8,7 @@
     </parent>
     <groupId>org.example</groupId>
     <artifactId>institutions-animals-aggregator</artifactId>
-    <name>Archetype - complete-institutions</name>
+    <name>Archetype - institutions-animals-aggregator</name>
     <url>http://maven.apache.org</url>
 
     <properties>
