@@ -17,13 +17,13 @@ import java.util.function.BiFunction;
 public class InstitutionAnimalLeftJoin {
 
     @Bean
-    public BiFunction<KStream<InstitutionKey, InstitutionValue>, KStream<AnimalKey, AnimalValue>, KStream<InstitutionKey, InstitutionAnimalValue>> joiner() {
+    public BiFunction<KStream<InstitutionKey, InstitutionValue>, KStream<AnimalKey, AnimalWithSizeValue>, KStream<InstitutionKey, InstitutionAnimalValue>> joiner() {
         return (institutionsStream, animalsStream) -> {
             KTable<InstitutionKey, InstitutionValue> institutionsKTable = institutionsStream
                     .selectKey((k, v) -> InstitutionKey.newBuilder().setId(k.getId()).build())
                     .toTable(Named.as("INSTITUTION"), Materialized.as("INSTITUTION"));
 
-            KTable<InstitutionKey, AnimalValue> animalsKTable = animalsStream
+            KTable<InstitutionKey, AnimalWithSizeValue> animalsKTable = animalsStream
                     .selectKey((k, v) -> InstitutionKey.newBuilder().setId(v.getIdInstitution()).build())
                     .toTable(Named.as("ANIMAL_INSTITUTION"), Materialized.as("ANIMAL_INSTITUTION"));
 
@@ -50,7 +50,7 @@ public class InstitutionAnimalLeftJoin {
                 .build();
     }
 
-    private InstitutionAnimalValue createFullJoin(InstitutionValue institutionValue, AnimalValue animalValue) {
+    private InstitutionAnimalValue createFullJoin(InstitutionValue institutionValue, AnimalWithSizeValue animalValue) {
 
         Animal animal = Animal.newBuilder()
                 .setIdAnimal(animalValue.getId())

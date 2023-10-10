@@ -1,7 +1,7 @@
 {
   "type": "record",
   "namespace": "com.hiberus.adoptionskafka.avro",
-  "name": "AnimalValue",
+  "name": "AnimalWithSizeValue",
   "fields": [
     {
       "name": "id",
