@@ -4,14 +4,18 @@ topic-in-0: institutions-animal
 topic-out-0: complete-institutions-info
 
 spring:
-  application.name: complete-institutions
+
+  # If you change the name, it reads again all the topics entry messages from the beginning
+  application.name: institutions-animals-aggregator
 
   cloud:
 
+    # Functions
     function.definition: aggregateAnimals;
 
     stream:
 
+      # Configuration between topics and functions
       bindings:
         aggregateAnimals-in-0:
           destination: ${topic-in-0}
@@ -31,6 +35,7 @@ spring:
 
       kafka.streams:
 
+        # Consumers configuration
         bindings:
           aggregateAnimals-in-0:
             consumer:
@@ -38,6 +43,7 @@ spring:
               valueSerde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
               applicationId: ${spring.application.name}
 
+        # Kafka configuration
         binder:
           configuration:
             commit.interval.ms: 100

@@ -7,7 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     <groupId>org.example</groupId>
-    <artifactId>complete-institutions</artifactId>
+    <artifactId>institutions-animals-aggregator</artifactId>
     <name>Archetype - complete-institutions</name>
     <url>http://maven.apache.org</url>
 
