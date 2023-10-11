@@ -35,7 +35,10 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
                         .filter(c -> !institutionAnimalValue.getAnimal().getIdAnimal().equals(c.getIdAnimal()))
                                 .collect(Collectors.toList())).build();
 
-        institutionAnimalsValue.getAnimals().add(createAnimal(institutionAnimalValue));
+        // Control thar institution have an animal and not only is a institution without animal
+        if (institutionAnimalValue.getAnimal() != null) {
+            institutionAnimalsValue.getAnimals().add(createAnimal(institutionAnimalValue));
+        }
 
         log.info("Aggregator after institutionAnimalsValue add");
 
@@ -44,10 +47,6 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
 
 
     private Animal createAnimal(InstitutionAnimalValue institutionAnimalValue) {
-
-        if (institutionAnimalValue.getAnimal() == null) {
-            return null;
-        }
 
         return Animal.newBuilder()
                 .setIdAnimal(institutionAnimalValue.getAnimal().getIdAnimal())
