@@ -29,11 +29,12 @@ public class AnimalsAggregator {
     @Bean
     public Function<KStream<InstitutionKey, InstitutionAnimalValue>, KStream<InstitutionKey, InstitutionAnimalsValue>> aggregateAnimals() {
         return institutionsStream -> institutionsStream
-                .peek((k, v) -> log.info("[aggregateMessages] Received message with key: {} and value {}", k, v))
-                .selectKey((k, v) -> InstitutionKey.newBuilder().setId(k.getId()).build())
+                .peek((k, v) -> log.info("[aggregateAnimals] Received message with key: {} and value {}", k, v))
+                // Don't need to change key, because I use the same entry key
+                // .selectKey((k, v) -> InstitutionKey.newBuilder().setId(k.getId()).build())
                 .groupByKey()
                 .aggregate(initializerAnimalsList, aggregatorInstitutionsAnimals, Named.as("INSITUTIONS_ANIMALS"), Materialized.as("INSITUTIONS_ANIMALS"))
                 .toStream()
-                .peek((k, v) -> log.info("[aggregateMessages] Sending message with key: {} and value {}", k, v));
+                .peek((k, v) -> log.info("[aggregateAnimals] Sending message with key: {} and value {}", k, v));
     }
 }

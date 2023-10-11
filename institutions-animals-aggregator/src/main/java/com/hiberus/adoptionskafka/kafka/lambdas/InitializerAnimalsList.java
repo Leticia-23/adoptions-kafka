@@ -10,6 +10,13 @@ public class InitializerAnimalsList implements org.apache.kafka.streams.kstream.
     @Override
     public InstitutionAnimalsValue apply() {
         return InstitutionAnimalsValue.newBuilder()
+                .setIdInstitution("")
+                .setName("")
+                .setEmail("")
+                .setAddress("")
+                .setPhoneNumber("")
+                .setWebURL("")
+                .setInformation("")
                 .setAnimals(new ArrayList<>())
                 .build();
     }

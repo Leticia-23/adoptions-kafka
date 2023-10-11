@@ -6,8 +6,10 @@ import com.hiberus.adoptionskafka.avro.Animal;
 import com.hiberus.adoptionskafka.avro.InstitutionAnimalValue;
 import com.hiberus.adoptionskafka.avro.InstitutionAnimalsValue;
 import com.hiberus.adoptionskafka.avro.InstitutionKey;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
+@Slf4j
 @Component
 public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.kstream.Aggregator<InstitutionKey, InstitutionAnimalValue, InstitutionAnimalsValue> {
 
@@ -15,6 +17,8 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
     public InstitutionAnimalsValue apply(InstitutionKey institutionKey,
                                          InstitutionAnimalValue institutionAnimalValue,
                                          InstitutionAnimalsValue institutionAnimalsValue) {
+
+        log.info("Aggregator before institutionAnimalsValue");
 
         institutionAnimalsValue = InstitutionAnimalsValue.newBuilder()
                 .setIdInstitution(institutionAnimalValue.getIdInstitution())
@@ -33,11 +37,17 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
 
         institutionAnimalsValue.getAnimals().add(createAnimal(institutionAnimalValue));
 
+        log.info("Aggregator after institutionAnimalsValue add");
+
         return institutionAnimalsValue;
     }
 
 
     private Animal createAnimal(InstitutionAnimalValue institutionAnimalValue) {
+
+        if (institutionAnimalValue.getAnimal() == null) {
+            return null;
+        }
 
         return Animal.newBuilder()
                 .setIdAnimal(institutionAnimalValue.getAnimal().getIdAnimal())
