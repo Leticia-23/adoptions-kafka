@@ -20,7 +20,7 @@ public class InstitutionAnimalLeftJoin {
     public BiFunction<KStream<InstitutionKey, InstitutionValue>, KStream<AnimalKey, AnimalWithSizeValue>, KStream<InstitutionKey, InstitutionAnimalValue>> joiner() {
         return (institutionsStream, animalsStream) -> {
             KTable<InstitutionKey, InstitutionValue> institutionsKTable = institutionsStream
-                    .selectKey((k, v) -> InstitutionKey.newBuilder().setId(k.getId()).build())
+                    // .selectKey((k, v) -> InstitutionKey.newBuilder().setId(k.getId()).build())
                     .toTable(Named.as("INSTITUTION"), Materialized.as("INSTITUTION"));
 
             KTable<InstitutionKey, AnimalWithSizeValue> animalsKTable = animalsStream
