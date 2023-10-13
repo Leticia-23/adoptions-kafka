@@ -26,17 +26,33 @@ public class InstitutionServiceImpl implements InstitutionService {
     private KafkaTemplate<InstitutionKey, InstitutionValue> kafkaTemplate;
 
     @Override
-    public void createInstitution(InstitutionDto institution) {
-        if (institution == null) {
+    public void createInstitution(InstitutionDto institutionDto) {
+        if (institutionDto == null) {
             return;
         }
 
         String uuid = UUID.randomUUID().toString();
 
-        InstitutionKey animalKey = InstitutionKey.newBuilder().setId(uuid).build();
-        InstitutionValue animalValue = institutionMapper.dtoToEntity(institution, uuid);
+        InstitutionKey institutionKey = InstitutionKey.newBuilder().setId(uuid).build();
+        InstitutionValue institutionValue = institutionMapper.dtoToEntity(institutionDto, uuid);
 
-        log.info("Sending institution to animas topic");
-        kafkaTemplate.send(institutionTopic,animalKey,animalValue);
+        log.info("Sending institution to institutions topic");
+        kafkaTemplate.send(institutionTopic,institutionKey,institutionValue);
     }
+
+    @Override
+    public void updateInstitution(String idInstitution, InstitutionDto institutionDto) {
+        if (institutionDto == null) {
+            return;
+        }
+
+        InstitutionKey institutionKey = InstitutionKey.newBuilder().setId(idInstitution).build();
+        InstitutionValue institutionValue = institutionMapper.dtoToEntity(institutionDto, idInstitution);
+
+        log.info("Sending institution updated to institutions topic");
+        kafkaTemplate.send(institutionTopic,institutionKey,institutionValue);
+
+    }
+
+
 }

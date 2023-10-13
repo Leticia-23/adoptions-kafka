@@ -7,7 +7,11 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 
 public interface InstitutionControler {
 
-    @Operation(summary = "Create animal")
+    @Operation(summary = "Create institution")
     @ApiResponse(responseCode = "202", description = "Request accepted")
-    void createAnimal(InstitutionDto institutionDto);
+    void createInstitution(InstitutionDto institutionDto);
+
+    @Operation(summary = "Modify institution")
+    @ApiResponse(responseCode = "202", description = "Request accepted")
+    void modifyInstitution(String idInstitution, InstitutionDto institutionDto);
 }

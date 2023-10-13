@@ -23,9 +23,16 @@ public class InstitutionControlerImpl implements InstitutionControler {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void createAnimal(@Valid @RequestBody InstitutionDto institutionDto) {
+    public void createInstitution(@Valid @RequestBody InstitutionDto institutionDto) {
         log.info("Receive http petition for create institution");
         institutionService.createInstitution(institutionDto);
     }
 
+    @Override
+    @PatchMapping
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void modifyInstitution(@PathVariable String idInstitution, @RequestBody InstitutionDto institutionDto) {
+        log.info("Receive http petition for update institution");
+        institutionService.updateInstitution(idInstitution, institutionDto);
+    }
 }
