@@ -1,13 +1,14 @@
 package com.hiberus.adoptionskafka.services.impl;
 
-import com.hiberus.adoptionskafka.dto.InstitutionDto;
 import com.hiberus.adoptionskafka.models.Institution;
 import com.hiberus.adoptionskafka.services.AdoptionsService;
 import org.springframework.beans.factory.annotation.Autowired;
-import repositories.InstitutionsRepository;
+import org.springframework.stereotype.Service;
+import com.hiberus.adoptionskafka.repositories.InstitutionsRepository;
 
 import java.util.List;
 
+@Service
 public class AdoptionsServiceImpl implements AdoptionsService {
     @Autowired
     InstitutionsRepository institutionsRepository;

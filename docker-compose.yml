@@ -79,6 +79,21 @@ services:
       - kafka
     restart: always
 
+  adoptions_db:
+    image: postgres
+    container_name: "adoptions_db"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: admin123
+      POSTGRES_DB: adoptionsDB
+    volumes:
+      - db-data:/var/lib/postgresql/data
+
+volumes:
+  db-data:
+
 
 networks:
   default:
