@@ -29,7 +29,7 @@ public class InstitutionControlerImpl implements InstitutionControler {
     }
 
     @Override
-    @PatchMapping
+    @PutMapping(value = "/{idInstitution}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void modifyInstitution(@PathVariable String idInstitution, @RequestBody InstitutionDto institutionDto) {
         log.info("Receive http petition for update institution");
