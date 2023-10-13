@@ -6,9 +6,9 @@ Kafka project for Microservices Hiberus University
 2. ``mvn clean install`` to install the project dependencies
 3. ``docker-compose up --build`` 
 
-
 # Documentation
 
+- Redpanda: http://localhost:8080
 - Animals API: http://localhost:8082/swagger-ui.html
 - Institutions API: http://localhost:8084/swagger-ui.html
-- Redpanda: http://localhost:8080
+- Adoptions API: http://localhost:8087/swagger-ui.html
