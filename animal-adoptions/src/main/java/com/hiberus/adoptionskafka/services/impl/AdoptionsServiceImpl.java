@@ -1,7 +1,6 @@
 package com.hiberus.adoptionskafka.services.impl;
 
 import com.hiberus.adoptionskafka.dto.InstitutionDto;
-import com.hiberus.adoptionskafka.models.Animal;
 import com.hiberus.adoptionskafka.models.Institution;
 import com.hiberus.adoptionskafka.services.AdoptionsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,15 +14,12 @@ public class AdoptionsServiceImpl implements AdoptionsService {
 
     @Override
     public void saveInstitution(Institution institution) {
-        Institution existingInstitution = institutionsRepository.findByIdInstitution(institution.getIdInstitution());
+        // POST or PUT
+        institutionsRepository.save(institution);
+    }
 
-        if (existingInstitution != null ) {
-            List<Animal> animals = institution.getAnimals();
-
-        } else {
-
-        }
-
-
+    @Override
+    public List<Institution> findInstitutions(){
+        return institutionsRepository.findAll();
     }
 }
