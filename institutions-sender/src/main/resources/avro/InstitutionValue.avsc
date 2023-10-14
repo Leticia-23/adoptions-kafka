@@ -30,6 +30,19 @@
     {
       "name": "information",
       "type": "string"
+    },
+    {
+      "name": "eventType",
+      "type": {
+        "type": "enum",
+        "name": "EventType",
+        "namespace": "com.hiberus.adoptionskafka.avro",
+        "symbols": [
+          "POST",
+          "PUT",
+          "DELETE"
+        ]
+      }
     }
   ]
 }

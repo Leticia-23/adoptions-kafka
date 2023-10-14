@@ -1,6 +1,7 @@
 package com.hiberus.adoptionskafka.controlers.impl;
 
 import com.hiberus.adoptionskafka.controlers.InstitutionControler;
+import com.hiberus.adoptionskafka.dto.EventType;
 import com.hiberus.adoptionskafka.dto.InstitutionDto;
 import com.hiberus.adoptionskafka.services.InstitutionService;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -25,6 +26,7 @@ public class InstitutionControlerImpl implements InstitutionControler {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void createInstitution(@Valid @RequestBody InstitutionDto institutionDto) {
         log.info("Receive http petition for create institution");
+        institutionDto.setEventType(EventType.POST);
         institutionService.createInstitution(institutionDto);
     }
 
@@ -33,6 +35,7 @@ public class InstitutionControlerImpl implements InstitutionControler {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void modifyInstitution(@PathVariable String idInstitution, @RequestBody InstitutionDto institutionDto) {
         log.info("Receive http petition for update institution");
+        institutionDto.setEventType(EventType.PUT);
         institutionService.updateInstitution(idInstitution, institutionDto);
     }
 }
