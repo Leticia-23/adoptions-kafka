@@ -1,5 +1,6 @@
 package com.hiberus.adoptionskafka.services.impl;
 
+import com.hiberus.adoptionskafka.exceptions.InstitutionAlreadyExistsException;
 import com.hiberus.adoptionskafka.exceptions.InstitutionNotFoundException;
 import com.hiberus.adoptionskafka.models.Institution;
 import com.hiberus.adoptionskafka.services.AdoptionsService;
@@ -7,8 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hiberus.adoptionskafka.repositories.InstitutionsRepository;
 
+import javax.management.InstanceAlreadyExistsException;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class AdoptionsServiceImpl implements AdoptionsService {
@@ -16,9 +17,22 @@ public class AdoptionsServiceImpl implements AdoptionsService {
     InstitutionsRepository institutionsRepository;
 
     @Override
-    public void saveInstitution(Institution institution) {
-        // POST or PUT
-        institutionsRepository.save(institution);
+    public void saveInstitution(Institution institution) throws InstitutionAlreadyExistsException {
+        if (!institutionsRepository.existsById(institution.getIdInstitution())) {
+            institutionsRepository.save(institution);
+        } else {
+            throw new InstitutionAlreadyExistsException();
+        }
+
+    }
+
+    @Override
+    public void updateInstitution(Institution institution) throws InstitutionNotFoundException {
+        if (institutionsRepository.existsById(institution.getIdInstitution())) {
+            institutionsRepository.save(institution);
+        } else {
+            throw new InstitutionNotFoundException();
+        }
     }
 
     @Override

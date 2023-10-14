@@ -84,7 +84,9 @@ public class InstitutionAnimalLeftJoin {
                 .setPhoneNumber(institutionValue.getPhoneNumber())
                 .setWebURL(institutionValue.getWebURL())
                 .setInformation(institutionValue.getInformation())
-                .setEventType(institutionValue.getEventType())
+                // Although there is a POST in the ktable
+                // the institution is actually being updated with a new or updated animal
+                .setEventType(EventType.PUT)
                 .setAnimal(animal)
                 .build();
     }

@@ -57,7 +57,7 @@ public class InstitutionServiceImpl implements InstitutionService {
     public void deleteInstitution(String idInstitution) {
         InstitutionKey institutionKey = InstitutionKey.newBuilder().setId(idInstitution).build();
 
-        log.info("Sending institution updated to institutions topic");
+        log.info("Sending institution deleted to institutions topic");
         kafkaTemplate.send(institutionTopic,institutionKey, null);
     }
 
