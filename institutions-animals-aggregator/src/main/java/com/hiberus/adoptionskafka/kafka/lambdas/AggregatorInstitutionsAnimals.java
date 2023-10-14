@@ -26,6 +26,7 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
                 .setPhoneNumber(institutionAnimalValue.getPhoneNumber())
                 .setWebURL(institutionAnimalValue.getWebURL())
                 .setInformation(institutionAnimalValue.getInformation())
+                .setEventType(institutionAnimalValue.getEventType())
                 // Remove duplicate animals
                 .setAnimals(
                         institutionAnimalsValue.getAnimals()
@@ -33,7 +34,7 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
                         .filter(c -> !institutionAnimalValue.getAnimal().getIdAnimal().equals(c.getIdAnimal()))
                                 .collect(Collectors.toList())).build();
 
-        // Control thar institution have an animal and not only is a institution without animal
+        // Control that institution have an animal and not only is an institution without animal
         if (institutionAnimalValue.getAnimal() != null) {
             institutionAnimalsValue.getAnimals().add(createAnimal(institutionAnimalValue));
         }

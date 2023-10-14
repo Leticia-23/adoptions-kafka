@@ -8,5 +8,7 @@ import java.util.List;
 public interface AdoptionsService {
     void saveInstitution(Institution institution);
 
-    public List<Institution> findInstitutions();
+    List<Institution> findInstitutions();
+
+    void deleteInstitution(String idInstitution);
 }

@@ -1,5 +1,6 @@
 package com.hiberus.adoptionskafka.kafka;
 
+import com.hiberus.adoptionskafka.avro.EventType;
 import com.hiberus.adoptionskafka.avro.InstitutionAnimalsValue;
 import com.hiberus.adoptionskafka.avro.InstitutionKey;
 import com.hiberus.adoptionskafka.mappers.AdoptionsMapper;
@@ -23,10 +24,16 @@ public class InstitutionsListener {
 
     @Bean
     public Consumer<KStream<InstitutionKey, InstitutionAnimalsValue>> process() {
-        return claseKStream -> claseKStream
+        return adoptiosKStream -> adoptiosKStream
                 .peek((k, v) -> log.info("[animal-adoptions listener] Received message with key: {} and value {}", k, v))
                 .peek((k, v) -> {
-                    adoptionsService.saveInstitution(adoptionsMapper.avroToModel(v));
+                    if (v == null) {
+                        adoptionsService.deleteInstitution(k.getId());
+                    }
+                    if (v.getEventType() == EventType.POST || v.getEventType() == EventType.PUT) {
+                        // TODO: save Institutions with animals to save or delete animals
+                        adoptionsService.saveInstitution(adoptionsMapper.avroToModel(v));
+                    }
                 });
     }
 }

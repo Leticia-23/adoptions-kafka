@@ -25,7 +25,7 @@ public class InstitutionAnimalLeftJoin {
 
             KTable<InstitutionKey, AnimalWithSizeValue> animalsKTable = animalsStream
                     .selectKey((k, v) -> InstitutionKey.newBuilder().setId(v.getIdInstitution()).build())
-                    .toTable(Named.as("ANIMAL_INSTITUTION"), Materialized.as("ANIMAL_INSTITUTION"));
+                    .toTable(Named.as("ANIMAL"), Materialized.as("ANIMAL"));
 
             return institutionsKTable.leftJoin(animalsKTable,
                             (institutionValue, animalValue) -> animalValue == null ?
@@ -46,6 +46,7 @@ public class InstitutionAnimalLeftJoin {
                 .setPhoneNumber(institutionValue.getPhoneNumber())
                 .setWebURL(institutionValue.getWebURL())
                 .setInformation(institutionValue.getInformation())
+                .setEventType(institutionValue.getEventType())
                 .setAnimal(null)
                 .build();
     }
@@ -74,6 +75,7 @@ public class InstitutionAnimalLeftJoin {
                 .setPhoneNumber(institutionValue.getPhoneNumber())
                 .setWebURL(institutionValue.getWebURL())
                 .setInformation(institutionValue.getInformation())
+                .setEventType(institutionValue.getEventType())
                 .setAnimal(animal)
                 .build();
     }

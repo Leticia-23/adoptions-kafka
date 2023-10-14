@@ -23,4 +23,9 @@ public class AdoptionsServiceImpl implements AdoptionsService {
     public List<Institution> findInstitutions(){
         return institutionsRepository.findAll();
     }
+
+    @Override
+    public void deleteInstitution(String idInstitution) {
+        institutionsRepository.deleteById(idInstitution);
+    }
 }

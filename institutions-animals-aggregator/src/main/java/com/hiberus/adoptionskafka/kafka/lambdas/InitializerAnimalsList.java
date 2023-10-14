@@ -1,5 +1,6 @@
 package com.hiberus.adoptionskafka.kafka.lambdas;
 
+import com.hiberus.adoptionskafka.avro.EventType;
 import com.hiberus.adoptionskafka.avro.InstitutionAnimalsValue;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public class InitializerAnimalsList implements org.apache.kafka.streams.kstream.
                 .setPhoneNumber("")
                 .setWebURL("")
                 .setInformation("")
+                .setEventType(EventType.POST)
                 .setAnimals(new ArrayList<>())
                 .build();
     }
