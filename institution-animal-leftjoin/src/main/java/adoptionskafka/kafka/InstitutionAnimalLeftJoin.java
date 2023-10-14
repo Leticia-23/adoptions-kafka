@@ -38,6 +38,11 @@ public class InstitutionAnimalLeftJoin {
 
 
     private InstitutionAnimalValue createLeftJoin(InstitutionValue institutionValue) {
+
+        if (institutionValue == null) {
+            return null;
+        }
+
         return  InstitutionAnimalValue.newBuilder()
                 .setIdInstitution(institutionValue.getId())
                 .setName(institutionValue.getName())
@@ -52,6 +57,10 @@ public class InstitutionAnimalLeftJoin {
     }
 
     private InstitutionAnimalValue createFullJoin(InstitutionValue institutionValue, AnimalWithSizeValue animalValue) {
+
+        if (institutionValue == null) {
+            return null;
+        }
 
         Animal animal = Animal.newBuilder()
                 .setIdAnimal(animalValue.getId())
