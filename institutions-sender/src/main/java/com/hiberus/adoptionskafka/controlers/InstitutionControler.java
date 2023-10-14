@@ -14,4 +14,8 @@ public interface InstitutionControler {
     @Operation(summary = "Modify institution")
     @ApiResponse(responseCode = "202", description = "Request accepted")
     void modifyInstitution(String idInstitution, InstitutionDto institutionDto);
+
+    @Operation(summary = "Delete institution")
+    @ApiResponse(responseCode = "202", description = "Request accepted")
+    void deleteInstitution(String idInstitution);
 }

@@ -38,4 +38,12 @@ public class InstitutionControlerImpl implements InstitutionControler {
         institutionDto.setEventType(EventType.PUT);
         institutionService.updateInstitution(idInstitution, institutionDto);
     }
+
+    @Override
+    @DeleteMapping(value = "/{idInstitution}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteInstitution(@PathVariable String idInstitution) {
+        log.info("Receive http petition for delete institution");
+        institutionService.deleteInstitution(idInstitution);
+    }
 }
