@@ -19,8 +19,7 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
                                          InstitutionAnimalsValue institutionAnimalsValue) {
 
         if (institutionAnimalValue == null) {
-            institutionAnimalsValue = null;
-            return institutionAnimalsValue;
+           return null;
         }
 
         institutionAnimalsValue = InstitutionAnimalsValue.newBuilder()

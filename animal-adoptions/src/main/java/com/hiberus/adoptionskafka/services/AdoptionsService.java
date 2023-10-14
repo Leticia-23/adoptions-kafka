@@ -1,6 +1,7 @@
 package com.hiberus.adoptionskafka.services;
 
 import com.hiberus.adoptionskafka.dto.InstitutionDto;
+import com.hiberus.adoptionskafka.exceptions.InstitutionNotFoundException;
 import com.hiberus.adoptionskafka.models.Institution;
 
 import java.util.List;
@@ -10,5 +11,5 @@ public interface AdoptionsService {
 
     List<Institution> findInstitutions();
 
-    void deleteInstitution(String idInstitution);
+    void deleteInstitution(String idInstitution) throws InstitutionNotFoundException;
 }

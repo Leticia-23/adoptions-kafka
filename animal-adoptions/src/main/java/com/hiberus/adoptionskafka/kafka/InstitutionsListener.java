@@ -3,6 +3,7 @@ package com.hiberus.adoptionskafka.kafka;
 import com.hiberus.adoptionskafka.avro.EventType;
 import com.hiberus.adoptionskafka.avro.InstitutionAnimalsValue;
 import com.hiberus.adoptionskafka.avro.InstitutionKey;
+import com.hiberus.adoptionskafka.exceptions.InstitutionNotFoundException;
 import com.hiberus.adoptionskafka.mappers.AdoptionsMapper;
 import com.hiberus.adoptionskafka.services.AdoptionsService;
 import lombok.extern.slf4j.Slf4j;
@@ -28,11 +29,17 @@ public class InstitutionsListener {
                 .peek((k, v) -> log.info("[animal-adoptions listener] Received message with key: {} and value {}", k, v))
                 .peek((k, v) -> {
                     if (v == null) {
-                        adoptionsService.deleteInstitution(k.getId());
-                    }
-                    if (v.getEventType() == EventType.POST || v.getEventType() == EventType.PUT) {
-                        // TODO: save Institutions with animals to save or delete animals
-                        adoptionsService.saveInstitution(adoptionsMapper.avroToModel(v));
+                        try {
+                            adoptionsService.deleteInstitution(k.getId());
+                        } catch (InstitutionNotFoundException e) {
+                            log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                        }
+
+                    } else {
+                        if (v.getEventType() == EventType.POST || v.getEventType() == EventType.PUT) {
+                            // TODO: save Institutions with animals to save or delete animals
+                            adoptionsService.saveInstitution(adoptionsMapper.avroToModel(v));
+                        }
                     }
                 });
     }
