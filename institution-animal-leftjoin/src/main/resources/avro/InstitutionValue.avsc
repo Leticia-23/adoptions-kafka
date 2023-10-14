@@ -39,8 +39,7 @@
         "namespace": "com.hiberus.adoptionskafka.avro",
         "symbols": [
           "POST",
-          "PUT",
-          "DELETE"
+          "PUT"
         ]
       }
     }
