@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.management.InstanceAlreadyExistsException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Consumer;
 import java.util.stream.Collectors;
@@ -34,6 +35,7 @@ public class InstitutionsListener {
                 .peek((k, v) -> log.info("[animal-adoptions listener] Received message with key: {} and value {}", k, v))
                 .peek((k, v) -> {
                     if (v == null) {
+                        log.info("[animal-adoptions] delete institution and its animals");
                         try {
                             adoptionsService.deleteInstitution(k.getId());
                         } catch (InstitutionNotFoundException e) {
@@ -41,6 +43,7 @@ public class InstitutionsListener {
                         }
                     } else {
                         if (v.getEventType() == EventType.POST ) {
+                            log.info("[animal-adoptions] create institution without animals");
                             try {
                                 adoptionsService.saveInstitution(adoptionsMapper.avroToModel(v));
                             } catch (InstitutionAlreadyExistsException e) {
@@ -48,41 +51,62 @@ public class InstitutionsListener {
                             }
                         } else if (v.getEventType() == EventType.PUT) {
 
-                            if (v.getAnimals().isEmpty()) {
-                                try {
-                                    adoptionsService.updateInstitution(adoptionsMapper.avroToModel(v));
-                                } catch (InstitutionNotFoundException e) {
-                                    log.error("InstitutionNotFoundException caught: {}", e.getMessage());
-                                }
-                            } else {
-                                List<Animal> notDeleteAnimals = v.getAnimals()
-                                        .stream()
-                                        .filter(animal -> animal.getEventType() == EventType.POST || animal.getEventType() == EventType.PUT)
-                                        .toList();
+                            log.info("[animal-adoptions] update institution");
+
+                            if (!v.getAnimals().isEmpty()) {
+                                log.info("[animal-adoptions] update institution with animals");
 
                                 List<Animal> deleteAnimals = v.getAnimals()
                                         .stream()
                                         .filter(animal -> animal.getEventType() == EventType.DELETE)
                                         .toList();
 
-                                if (!notDeleteAnimals.isEmpty()) {
+                                List<Animal> updatedAnimals = new ArrayList<>(v.getAnimals());
+                                updatedAnimals.removeAll(deleteAnimals);
+                                v.setAnimals(updatedAnimals);
+                            }
+
+                            try {
+                                adoptionsService.updateInstitution(adoptionsMapper.avroToModel(v));
+                            } catch (InstitutionNotFoundException e) {
+                                log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                            }
+
+                            /* List<Animal> notDeleteAnimals = v.getAnimals()
+                                    .stream()
+                                    .filter(animal -> animal.getEventType() == EventType.POST
+                                            || animal.getEventType() == EventType.PUT)
+                                    .toList();
+
+                            v.setAnimals(notDeleteAnimals);*/
+
+                            /*List<Animal> deleteAnimals = v.getAnimals()
+                                        .stream()
+                                        .filter(animal -> animal.getEventType() == EventType.DELETE)
+                                        .toList();
+
+                                List<Animal> updatedAnimals = new ArrayList<>(v.getAnimals());
+                                updatedAnimals.removeAll(deleteAnimals);
+                                v.setAnimals(updatedAnimals);*/
+
+                            /* if (!notDeleteAnimals.isEmpty()) {
+                                    log.info("[animal-adoptions] update institution with put/post animals");
                                     InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
                                     try {
                                         adoptionsService.updateInstitution(adoptionsMapper.avroToModel(newValue));
                                     } catch (InstitutionNotFoundException e) {
                                         log.error("InstitutionNotFoundException caught: {}", e.getMessage());
                                     }
-                                }
-
-                                if (!deleteAnimals.isEmpty()) {
-                                    InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
+                                }*/ /* if (!deleteAnimals.isEmpty()) {
+                                    log.info("[animal-adoptions] update institution deleting animals");
+                                    InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, deleteAnimals);
                                     try {
                                         adoptionsService.deleteAnimalsFromInstitution(adoptionsMapper.avroToModel(newValue));
                                     } catch (InstitutionNotFoundException e) {
                                         log.error("InstitutionNotFoundException caught: {}", e.getMessage());
                                     }
-                                }
-                            }
+                                } */
+
                         }
                     }
                 });

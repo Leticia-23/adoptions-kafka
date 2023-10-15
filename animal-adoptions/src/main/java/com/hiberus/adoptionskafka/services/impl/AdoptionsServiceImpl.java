@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.hiberus.adoptionskafka.repositories.InstitutionsRepository;
 
 import javax.management.InstanceAlreadyExistsException;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -52,6 +53,7 @@ public class AdoptionsServiceImpl implements AdoptionsService {
         }
     }
 
+    @Transactional
     @Override
     public void deleteAnimalsFromInstitution(Institution institution) throws InstitutionNotFoundException {
 
@@ -69,6 +71,5 @@ public class AdoptionsServiceImpl implements AdoptionsService {
 
         // Update institution
         institutionsRepository.save(institution);
-
     }
 }
