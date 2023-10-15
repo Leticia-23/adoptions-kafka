@@ -21,26 +21,25 @@ public class AdoptionsServiceImpl implements AdoptionsService {
 
     @Override
     public void saveInstitution(Institution institution) throws InstitutionAlreadyExistsException {
+
         if (!institutionsRepository.existsById(institution.getIdInstitution())) {
             institutionsRepository.save(institution);
         } else {
             throw new InstitutionAlreadyExistsException();
         }
-
     }
 
     @Override
     public void updateInstitution(Institution institution) throws InstitutionNotFoundException {
+
         if (institutionsRepository.existsById(institution.getIdInstitution())) {
+            // This update the institution -> delete the relations institution-animals
+            // -> create the new relations institution-animal
+            // -> delete animals from the Animals table that there are not in the relation
             institutionsRepository.save(institution);
         } else {
             throw new InstitutionNotFoundException();
         }
-    }
-
-    @Override
-    public List<Institution> findInstitutions(){
-        return institutionsRepository.findAll();
     }
 
     @Override
@@ -53,23 +52,8 @@ public class AdoptionsServiceImpl implements AdoptionsService {
         }
     }
 
-    @Transactional
     @Override
-    public void deleteAnimalsFromInstitution(Institution institution) throws InstitutionNotFoundException {
-
-        Optional<Institution> optionalInstitutionSaved = institutionsRepository.findById(institution.getIdInstitution());
-
-        Institution institutionSaved = optionalInstitutionSaved.orElseThrow(InstitutionNotFoundException::new);
-
-        List<Animal> animalsToRemove = institution.getAnimals();
-
-        // Delete only the new animal to delete because the others already deleted will be skipped
-        institutionSaved.getAnimals().removeAll(animalsToRemove);
-
-        // Set to the updated institution the animal list without the animals to delete
-        institution.setAnimals(institutionSaved.getAnimals());
-
-        // Update institution
-        institutionsRepository.save(institution);
+    public List<Institution> findInstitutions(){
+        return institutionsRepository.findAll();
     }
 }

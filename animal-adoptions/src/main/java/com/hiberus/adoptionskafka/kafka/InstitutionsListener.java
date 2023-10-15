@@ -56,11 +56,13 @@ public class InstitutionsListener {
                             if (!v.getAnimals().isEmpty()) {
                                 log.info("[animal-adoptions] update institution with animals");
 
+                                // Filter animals that have been removed or will be removed
                                 List<Animal> deleteAnimals = v.getAnimals()
                                         .stream()
                                         .filter(animal -> animal.getEventType() == EventType.DELETE)
                                         .toList();
 
+                                // Delete the animals that must be deleted so that they are not saved
                                 List<Animal> updatedAnimals = new ArrayList<>(v.getAnimals());
                                 updatedAnimals.removeAll(deleteAnimals);
                                 v.setAnimals(updatedAnimals);
@@ -72,56 +74,8 @@ public class InstitutionsListener {
                                 log.error("InstitutionNotFoundException caught: {}", e.getMessage());
                             }
 
-                            /* List<Animal> notDeleteAnimals = v.getAnimals()
-                                    .stream()
-                                    .filter(animal -> animal.getEventType() == EventType.POST
-                                            || animal.getEventType() == EventType.PUT)
-                                    .toList();
-
-                            v.setAnimals(notDeleteAnimals);*/
-
-                            /*List<Animal> deleteAnimals = v.getAnimals()
-                                        .stream()
-                                        .filter(animal -> animal.getEventType() == EventType.DELETE)
-                                        .toList();
-
-                                List<Animal> updatedAnimals = new ArrayList<>(v.getAnimals());
-                                updatedAnimals.removeAll(deleteAnimals);
-                                v.setAnimals(updatedAnimals);*/
-
-                            /* if (!notDeleteAnimals.isEmpty()) {
-                                    log.info("[animal-adoptions] update institution with put/post animals");
-                                    InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
-                                    try {
-                                        adoptionsService.updateInstitution(adoptionsMapper.avroToModel(newValue));
-                                    } catch (InstitutionNotFoundException e) {
-                                        log.error("InstitutionNotFoundException caught: {}", e.getMessage());
-                                    }
-                                }*/ /* if (!deleteAnimals.isEmpty()) {
-                                    log.info("[animal-adoptions] update institution deleting animals");
-                                    InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, deleteAnimals);
-                                    try {
-                                        adoptionsService.deleteAnimalsFromInstitution(adoptionsMapper.avroToModel(newValue));
-                                    } catch (InstitutionNotFoundException e) {
-                                        log.error("InstitutionNotFoundException caught: {}", e.getMessage());
-                                    }
-                                } */
-
                         }
                     }
                 });
-    }
-
-    InstitutionAnimalsValue createInstitutionAnimalsValue(InstitutionAnimalsValue institutionAnimalsValue, List<Animal> animalsList) {
-        return InstitutionAnimalsValue.newBuilder()
-                .setIdInstitution(institutionAnimalsValue.getIdInstitution())
-                .setName(institutionAnimalsValue.getName())
-                .setEmail(institutionAnimalsValue.getEmail())
-                .setAddress(institutionAnimalsValue.getAddress())
-                .setPhoneNumber(institutionAnimalsValue.getPhoneNumber())
-                .setWebURL(institutionAnimalsValue.getWebURL())
-                .setInformation(institutionAnimalsValue.getInformation())
-                .setEventType(institutionAnimalsValue.getEventType())
-                .setAnimals(animalsList).build();
     }
 }
