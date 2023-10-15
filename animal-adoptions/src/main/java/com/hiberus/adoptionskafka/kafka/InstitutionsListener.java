@@ -47,31 +47,40 @@ public class InstitutionsListener {
                                 log.error("InstitutionAlreadyExistsException caught: {}", e.getMessage());
                             }
                         } else if (v.getEventType() == EventType.PUT) {
-                            List<Animal> notDeleteAnimals = v.getAnimals()
-                                    .stream()
-                                    .filter(animal -> animal.getEventType() == EventType.POST || animal.getEventType() == EventType.PUT)
-                                    .toList();
 
-                            List<Animal> deleteAnimals = v.getAnimals()
-                                    .stream()
-                                    .filter(animal -> animal.getEventType() == EventType.DELETE)
-                                    .toList();
-
-                            if (!notDeleteAnimals.isEmpty()) {
-                                InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
+                            if (v.getAnimals().isEmpty()) {
                                 try {
-                                    adoptionsService.updateInstitution(adoptionsMapper.avroToModel(newValue));
+                                    adoptionsService.updateInstitution(adoptionsMapper.avroToModel(v));
                                 } catch (InstitutionNotFoundException e) {
                                     log.error("InstitutionNotFoundException caught: {}", e.getMessage());
                                 }
-                            }
+                            } else {
+                                List<Animal> notDeleteAnimals = v.getAnimals()
+                                        .stream()
+                                        .filter(animal -> animal.getEventType() == EventType.POST || animal.getEventType() == EventType.PUT)
+                                        .toList();
 
-                            if (!deleteAnimals.isEmpty()) {
-                                InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
-                                try {
-                                    adoptionsService.deleteAnimalsFromInstitution(adoptionsMapper.avroToModel(newValue));
-                                } catch (InstitutionNotFoundException e) {
-                                    log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                                List<Animal> deleteAnimals = v.getAnimals()
+                                        .stream()
+                                        .filter(animal -> animal.getEventType() == EventType.DELETE)
+                                        .toList();
+
+                                if (!notDeleteAnimals.isEmpty()) {
+                                    InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
+                                    try {
+                                        adoptionsService.updateInstitution(adoptionsMapper.avroToModel(newValue));
+                                    } catch (InstitutionNotFoundException e) {
+                                        log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                                    }
+                                }
+
+                                if (!deleteAnimals.isEmpty()) {
+                                    InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
+                                    try {
+                                        adoptionsService.deleteAnimalsFromInstitution(adoptionsMapper.avroToModel(newValue));
+                                    } catch (InstitutionNotFoundException e) {
+                                        log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                                    }
                                 }
                             }
                         }

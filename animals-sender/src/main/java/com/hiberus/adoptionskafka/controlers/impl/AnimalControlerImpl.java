@@ -30,7 +30,7 @@ public class AnimalControlerImpl implements AnimalControler {
     }
 
     @Override
-    @PutMapping(value = "/{idInstitution}")
+    @PutMapping(value = "/{idAnimal}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void modifyAnimal(@PathVariable String idAnimal, @RequestBody AnimalDto animalDto) {
         log.info("Receive http petition for update animal");
@@ -39,7 +39,7 @@ public class AnimalControlerImpl implements AnimalControler {
     }
 
     @Override
-    @DeleteMapping(value = "/{idInstitution}")
+    @DeleteMapping(value = "/{idAnimal}")
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void deleteAnimal(@PathVariable String idAnimal, @RequestBody AnimalDto animalDto) {
         log.info("Receive http petition for delete animal");
