@@ -26,6 +26,7 @@ public class AnimalControlerImpl implements AnimalControler {
     @ResponseStatus(HttpStatus.ACCEPTED)
     public void createAnimal(@Valid @RequestBody AnimalDto animalDto) {
         log.info("Receive http petition for create animal");
+        animalDto.setEventType(EventType.POST);
         animalService.createAnimal(animalDto);
     }
 
