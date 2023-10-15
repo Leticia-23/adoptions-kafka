@@ -2,6 +2,7 @@ package com.hiberus.adoptionskafka.controlers.impl;
 
 import com.hiberus.adoptionskafka.controlers.AnimalControler;
 import com.hiberus.adoptionskafka.dto.AnimalDto;
+import com.hiberus.adoptionskafka.dto.EventType;
 import com.hiberus.adoptionskafka.services.AnimalService;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.extern.slf4j.Slf4j;
@@ -28,4 +29,21 @@ public class AnimalControlerImpl implements AnimalControler {
         animalService.createAnimal(animalDto);
     }
 
+    @Override
+    @PutMapping(value = "/{idInstitution}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void modifyAnimal(@PathVariable String idAnimal, @RequestBody AnimalDto animalDto) {
+        log.info("Receive http petition for update animal");
+        animalDto.setEventType(EventType.PUT);
+        animalService.updateAnimal(idAnimal, animalDto);
+    }
+
+    @Override
+    @DeleteMapping(value = "/{idInstitution}")
+    @ResponseStatus(HttpStatus.ACCEPTED)
+    public void deleteAnimal(@PathVariable String idAnimal, @RequestBody AnimalDto animalDto) {
+        log.info("Receive http petition for delete animal");
+        animalDto.setEventType(EventType.DELETE);
+        animalService.deleteAnimal(idAnimal, animalDto);
+    }
 }

@@ -26,17 +26,43 @@ public class AnimalServiceImpl implements AnimalService {
     private KafkaTemplate<AnimalKey, AnimalValue> kafkaTemplate;
 
     @Override
-    public void createAnimal(AnimalDto animal) {
-        if (animal == null) {
+    public void createAnimal(AnimalDto animalDto) {
+        if (animalDto == null) {
             return;
         }
 
         String uuid = UUID.randomUUID().toString();
 
         AnimalKey animalKey = AnimalKey.newBuilder().setId(uuid).build();
-        AnimalValue animalValue = animalMapper.dtoToEntity(animal, uuid);
+        AnimalValue animalValue = animalMapper.dtoToEntity(animalDto, uuid);
 
         log.info("Sending animal to animas topic");
         kafkaTemplate.send(animalTopic,animalKey,animalValue);
+    }
+
+    @Override
+    public void updateAnimal(String idAnimal, AnimalDto animalDto) {
+        if (animalDto == null) {
+            return;
+        }
+
+        AnimalKey animalKey = AnimalKey.newBuilder().setId(idAnimal).build();
+        AnimalValue institutionValue = animalMapper.dtoToEntity(animalDto, idAnimal);
+
+        log.info("Sending animal updated to animals topic");
+        kafkaTemplate.send(animalTopic,animalKey,institutionValue);
+    }
+
+    @Override
+    public void deleteAnimal(String idAnimal, AnimalDto animalDto) {
+        if (animalDto == null) {
+            return;
+        }
+
+        AnimalKey animalKey = AnimalKey.newBuilder().setId(idAnimal).build();
+        AnimalValue institutionValue = animalMapper.dtoToEntity(animalDto, idAnimal);
+
+        log.info("Sending animal deleted to animals topic");
+        kafkaTemplate.send(animalTopic, animalKey, institutionValue);
     }
 }
