@@ -35,6 +35,7 @@ public class Institution {
     @Column
     private String information;
 
+    @Setter
     @OneToMany(
             cascade = CascadeType.ALL,
             orphanRemoval = true

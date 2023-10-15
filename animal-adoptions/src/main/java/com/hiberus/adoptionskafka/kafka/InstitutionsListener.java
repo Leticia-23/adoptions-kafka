@@ -1,5 +1,6 @@
 package com.hiberus.adoptionskafka.kafka;
 
+import com.hiberus.adoptionskafka.avro.Animal;
 import com.hiberus.adoptionskafka.avro.EventType;
 import com.hiberus.adoptionskafka.avro.InstitutionAnimalsValue;
 import com.hiberus.adoptionskafka.avro.InstitutionKey;
@@ -14,7 +15,9 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.management.InstanceAlreadyExistsException;
+import java.util.List;
 import java.util.function.Consumer;
+import java.util.stream.Collectors;
 
 @Configuration
 @Slf4j
@@ -36,7 +39,6 @@ public class InstitutionsListener {
                         } catch (InstitutionNotFoundException e) {
                             log.error("InstitutionNotFoundException caught: {}", e.getMessage());
                         }
-
                     } else {
                         if (v.getEventType() == EventType.POST ) {
                             try {
@@ -45,14 +47,48 @@ public class InstitutionsListener {
                                 log.error("InstitutionAlreadyExistsException caught: {}", e.getMessage());
                             }
                         } else if (v.getEventType() == EventType.PUT) {
-                            // TODO: updated Institutions with animals to save/update or delete animals
-                            try {
-                                adoptionsService.updateInstitution(adoptionsMapper.avroToModel(v));
-                            } catch (InstitutionNotFoundException e) {
-                                log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                            List<Animal> notDeleteAnimals = v.getAnimals()
+                                    .stream()
+                                    .filter(animal -> animal.getEventType() == EventType.POST || animal.getEventType() == EventType.PUT)
+                                    .toList();
+
+                            List<Animal> deleteAnimals = v.getAnimals()
+                                    .stream()
+                                    .filter(animal -> animal.getEventType() == EventType.DELETE)
+                                    .toList();
+
+                            if (!notDeleteAnimals.isEmpty()) {
+                                InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
+                                try {
+                                    adoptionsService.updateInstitution(adoptionsMapper.avroToModel(newValue));
+                                } catch (InstitutionNotFoundException e) {
+                                    log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                                }
+                            }
+
+                            if (!deleteAnimals.isEmpty()) {
+                                InstitutionAnimalsValue newValue = createInstitutionAnimalsValue(v, notDeleteAnimals);
+                                try {
+                                    adoptionsService.deleteAnimalsFromInstitution(adoptionsMapper.avroToModel(newValue));
+                                } catch (InstitutionNotFoundException e) {
+                                    log.error("InstitutionNotFoundException caught: {}", e.getMessage());
+                                }
                             }
                         }
                     }
                 });
+    }
+
+    InstitutionAnimalsValue createInstitutionAnimalsValue(InstitutionAnimalsValue institutionAnimalsValue, List<Animal> animalsList) {
+        return InstitutionAnimalsValue.newBuilder()
+                .setIdInstitution(institutionAnimalsValue.getIdInstitution())
+                .setName(institutionAnimalsValue.getName())
+                .setEmail(institutionAnimalsValue.getEmail())
+                .setAddress(institutionAnimalsValue.getAddress())
+                .setPhoneNumber(institutionAnimalsValue.getPhoneNumber())
+                .setWebURL(institutionAnimalsValue.getWebURL())
+                .setInformation(institutionAnimalsValue.getInformation())
+                .setEventType(institutionAnimalsValue.getEventType())
+                .setAnimals(animalsList).build();
     }
 }

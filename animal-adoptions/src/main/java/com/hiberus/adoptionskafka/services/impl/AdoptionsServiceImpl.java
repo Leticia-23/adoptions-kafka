@@ -2,6 +2,7 @@ package com.hiberus.adoptionskafka.services.impl;
 
 import com.hiberus.adoptionskafka.exceptions.InstitutionAlreadyExistsException;
 import com.hiberus.adoptionskafka.exceptions.InstitutionNotFoundException;
+import com.hiberus.adoptionskafka.models.Animal;
 import com.hiberus.adoptionskafka.models.Institution;
 import com.hiberus.adoptionskafka.services.AdoptionsService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import com.hiberus.adoptionskafka.repositories.InstitutionsRepository;
 
 import javax.management.InstanceAlreadyExistsException;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class AdoptionsServiceImpl implements AdoptionsService {
@@ -48,5 +50,25 @@ public class AdoptionsServiceImpl implements AdoptionsService {
         } else {
             throw new InstitutionNotFoundException();
         }
+    }
+
+    @Override
+    public void deleteAnimalsFromInstitution(Institution institution) throws InstitutionNotFoundException {
+
+        Optional<Institution> optionalInstitutionSaved = institutionsRepository.findById(institution.getIdInstitution());
+
+        Institution institutionSaved = optionalInstitutionSaved.orElseThrow(InstitutionNotFoundException::new);
+
+        List<Animal> animalsToRemove = institution.getAnimals();
+
+        // Delete only the new animal to delete because the others already deleted will be skipped
+        institutionSaved.getAnimals().removeAll(animalsToRemove);
+
+        // Set to the updated institution the animal list without the animals to delete
+        institution.setAnimals(institutionSaved.getAnimals());
+
+        // Update institution
+        institutionsRepository.save(institution);
+
     }
 }
