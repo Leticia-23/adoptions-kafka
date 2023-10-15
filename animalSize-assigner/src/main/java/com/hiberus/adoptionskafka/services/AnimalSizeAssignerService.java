@@ -39,6 +39,7 @@ public class AnimalSizeAssignerService {
                 .setSterile(value.getSterile())
                 .setAdopted(value.getAdopted())
                 .setIdInstitution(value.getIdInstitution())
+                .setEventType(value.getEventType())
                 .build();
 
         kafkaTemplate.send(animalsSizeTopic, key, animalWithSize);

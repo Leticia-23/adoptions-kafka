@@ -1,5 +1,5 @@
 
-package adoptionskafka;
+package com.hiberus.adoptionskafka;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

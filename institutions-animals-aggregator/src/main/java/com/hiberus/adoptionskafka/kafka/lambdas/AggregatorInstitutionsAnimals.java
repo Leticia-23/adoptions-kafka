@@ -57,6 +57,7 @@ public class AggregatorInstitutionsAnimals implements org.apache.kafka.streams.k
                 .setDangerous(institutionAnimalValue.getAnimal().getDangerous())
                 .setSterile(institutionAnimalValue.getAnimal().getSterile())
                 .setAdopted(institutionAnimalValue.getAnimal().getAdopted())
+                .setEventType(institutionAnimalValue.getAnimal().getEventType())
                 .build();
     }
 }

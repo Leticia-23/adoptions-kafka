@@ -1,4 +1,4 @@
-package adoptionskafka.kafka;
+package com.hiberus.adoptionskafka.kafka;
 
 
 import com.hiberus.adoptionskafka.avro.*;
@@ -21,9 +21,11 @@ public class InstitutionAnimalLeftJoin {
         return (institutionsStream, animalsStream) -> {
             KTable<InstitutionKey, InstitutionValue> institutionsKTable = institutionsStream
                     // .selectKey((k, v) -> InstitutionKey.newBuilder().setId(k.getId()).build())
+                    .peek((k, v) -> log.info("[joiner] receive institution with key: {} and value: {}", k, v))
                     .toTable(Named.as("INSTITUTION"), Materialized.as("INSTITUTION"));
 
             KTable<InstitutionKey, AnimalWithSizeValue> animalsKTable = animalsStream
+                    .peek((k, v) -> log.info("[joiner] receive animal with key: {} and value: {}", k, v))
                     .selectKey((k, v) -> InstitutionKey.newBuilder().setId(v.getIdInstitution()).build())
                     .toTable(Named.as("ANIMAL"), Materialized.as("ANIMAL"));
 
@@ -74,6 +76,7 @@ public class InstitutionAnimalLeftJoin {
                 .setDangerous(animalValue.getDangerous())
                 .setSterile(animalValue.getSterile())
                 .setAdopted(animalValue.getAdopted())
+                .setEventType(animalValue.getEventType())
                 .build();
 
         return  InstitutionAnimalValue.newBuilder()

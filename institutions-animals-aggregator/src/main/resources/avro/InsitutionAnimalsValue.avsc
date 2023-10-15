@@ -39,7 +39,8 @@
         "namespace": "com.hiberus.adoptionskafka.avro",
         "symbols": [
           "POST",
-          "PUT"
+          "PUT",
+          "DELETE"
         ]
       }
     },
@@ -100,6 +101,10 @@
               {
                 "name": "adopted",
                 "type": "boolean"
+              },
+              {
+                "name": "eventType",
+                "type": "com.hiberus.adoptionskafka.avro.EventType"
               }
             ]
           }
