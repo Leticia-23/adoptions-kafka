@@ -188,3 +188,6 @@ volumes:
 networks:
   default:
     name: adoptions-kafka
+
+
+# TODO: fail to connect eureka-server with 3 clients eureka
