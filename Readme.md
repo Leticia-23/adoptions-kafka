@@ -5,6 +5,8 @@ Kafka project for Microservices Hiberus University
 1. ```git clone https://github.com/Leticia-23/adoptions-kafka.git```
 2. ``mvn clean install`` to install the project dependencies
 3. ``docker-compose up --build`` 
+4. Execute eureka-service service
+5. Run the rest of the services to have complete correct functionality.
 
 # Documentation
 
