@@ -93,7 +93,7 @@ services:
 
   eureka-server:
     build: ./eureka-server
-    container_name: eureka_server
+    container_name: eureka-server
     restart: always
     ports:
       - "8761:8761"
@@ -104,7 +104,7 @@ services:
 
   animals-sender:
     build: ./animals-sender
-    container_name: animals_sender
+    container_name: animals-sender
     restart: always
     ports:
       - "8082:8082"
@@ -118,7 +118,7 @@ services:
 
   animal-size-assigner:
     build: ./animal-size-assigner
-    container_name: animal_size_assigner
+    container_name: animal-size-assigner
     restart: always
     ports:
       - "8083:8083"
@@ -130,7 +130,7 @@ services:
 
   institutions-sender:
     build: ./institutions-sender
-    container_name: institutions_sender
+    container_name: institutions-sender
     restart: always
     ports:
       - "8084:8084"
@@ -144,7 +144,7 @@ services:
 
   institution-animal-leftjoin:
     build: ./institution-animal-leftjoin
-    container_name: institution_animal_leftjoin
+    container_name: institution-animal-leftjoin
     restart: always
     ports:
       - "8085:8085"
@@ -156,7 +156,7 @@ services:
 
   institutions-animals-aggregator:
     build: ./institutions-animals-aggregator
-    container_name: institutions_animals_aggregator
+    container_name: institutions-animals-aggregator
     restart: always
     ports:
       - "8086:8086"
@@ -168,7 +168,7 @@ services:
 
   animal-adoptions:
     build: ./animal-adoptions
-    container_name: animal_adoptions
+    container_name: animal-adoptions
     restart: always
     ports:
       - "8087:8087"
