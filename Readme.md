@@ -13,3 +13,6 @@ Kafka project for Microservices Hiberus University
 - Animals API: http://localhost:8082/swagger-ui.html
 - Institutions API: http://localhost:8084/swagger-ui.html
 - Adoptions API: http://localhost:8087/swagger-ui.html
+
+# Software Arquitecture
+![image info](images/software-arquitecture.png)
