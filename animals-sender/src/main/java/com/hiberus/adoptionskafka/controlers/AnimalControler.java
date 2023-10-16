@@ -9,7 +9,7 @@ public interface AnimalControler {
 
     @Operation(summary = "Create animal")
     @ApiResponse(responseCode = "202", description = "Request accepted")
-    void createAnimal(AnimalDto animalDto);
+    ResponseEntity<String> createAnimal(AnimalDto animalDto);
 
     @Operation(summary = "Modify animal")
     @ApiResponse(responseCode = "202", description = "Request accepted")
