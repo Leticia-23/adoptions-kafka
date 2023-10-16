@@ -22,16 +22,14 @@ public class InstFeignServiceImpl implements InstFeignService {
 
     private final InstitutionClient institutionClient;
 
-    // @CircuitBreaker(name = "animal-adoptions", fallbackMethod = "fallBackCheckInstitution")
     public ResponseEntity<InstitutionDto> checkInstitution(String idInstitution) throws InstitutionNotFoundException,  AdoptionsMicroUnavailable {
-        log.info("Va a hacer el feign");
         try {
             return institutionClient.getInstitutionById(idInstitution);
         } catch (Exception e) {
             Throwable rootCause = getRootCause(e);
 
             if (rootCause instanceof FeignException.NotFound) {
-                throw new InstitutionNotFoundException("Institution not found microservice");
+                throw new InstitutionNotFoundException("Institution not found in DataBase");
             } else if (rootCause instanceof ConnectException) {
                 throw new AdoptionsMicroUnavailable("Not connection with animal-adoptions microservice");
             } else if (rootCause instanceof UnknownHostException) {
@@ -41,6 +39,11 @@ public class InstFeignServiceImpl implements InstFeignService {
             }
         }
     }
+
+    /* @CircuitBreaker(name = "animal-adoptions", fallbackMethod = "fallBackCheckInstitution")
+    public ResponseEntity<InstitutionDto> checkInstitution(String idInstitution) throws InstitutionNotFoundException,  AdoptionsMicroUnavailable {
+            return institutionClient.getInstitutionById(idInstitution);
+    } */
 
    /* private void fallBackCheckInstitution(String idInstitution, Throwable throwable) throws Throwable {
         log.error("Exception Feign Client: " + throwable.getMessage());
@@ -66,5 +69,4 @@ public class InstFeignServiceImpl implements InstFeignService {
         }
         return rootCause;
     }
-
 }

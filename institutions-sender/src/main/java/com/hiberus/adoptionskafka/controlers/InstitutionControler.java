@@ -18,5 +18,5 @@ public interface InstitutionControler {
 
     @Operation(summary = "Delete institution")
     @ApiResponse(responseCode = "202", description = "Request accepted")
-    void deleteInstitution(String idInstitution);
+    ResponseEntity<String> deleteInstitution(String idInstitution);
 }

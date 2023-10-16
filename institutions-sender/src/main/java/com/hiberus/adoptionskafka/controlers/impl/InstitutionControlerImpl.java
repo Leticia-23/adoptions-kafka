@@ -47,12 +47,10 @@ public class InstitutionControlerImpl implements InstitutionControler {
         try {
             ResponseEntity<InstitutionDto> responseEntity = instFeignService.checkInstitution(idInstitution);
             if (responseEntity.getStatusCode().is2xxSuccessful()) {
-                log.info("Ha sido succes");
                 institutionDto.setEventType(EventType.PUT);
                 institutionService.updateInstitution(idInstitution, institutionDto);
                 return new ResponseEntity<>(HttpStatus.ACCEPTED);
             }
-            log.info("Ha recibido otro status code");
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
         catch (InstitutionNotFoundException e) {
@@ -64,9 +62,21 @@ public class InstitutionControlerImpl implements InstitutionControler {
 
     @Override
     @DeleteMapping(value = "/{idInstitution}")
-    @ResponseStatus(HttpStatus.ACCEPTED)
-    public void deleteInstitution(@PathVariable String idInstitution) {
+    public ResponseEntity<String> deleteInstitution(@PathVariable String idInstitution) {
         log.info("Receive http petition for delete institution");
-        institutionService.deleteInstitution(idInstitution);
+
+        try {
+            ResponseEntity<InstitutionDto> responseEntity = instFeignService.checkInstitution(idInstitution);
+            if (responseEntity.getStatusCode().is2xxSuccessful()) {
+                institutionService.deleteInstitution(idInstitution);
+                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (InstitutionNotFoundException e) {
+            return new ResponseEntity<>(gson.toJson(e.getMessage()),HttpStatus.NOT_FOUND);
+        } catch ( AdoptionsMicroUnavailable e) {
+            return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.SERVICE_UNAVAILABLE);
+        }
     }
 }
