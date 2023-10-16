@@ -1,7 +1,9 @@
 package com.hiberus.adoptionskafka.controlers.impl;
 
 import com.hiberus.adoptionskafka.controlers.AdoptionsControler;
+import com.hiberus.adoptionskafka.dto.AnimalDto;
 import com.hiberus.adoptionskafka.dto.InstitutionDto;
+import com.hiberus.adoptionskafka.exceptions.AnimalNotFoundException;
 import com.hiberus.adoptionskafka.exceptions.InstitutionNotFoundException;
 import com.hiberus.adoptionskafka.mappers.AdoptionsMapper;
 import com.hiberus.adoptionskafka.services.AdoptionsService;
@@ -47,6 +49,18 @@ public class AdoptionControlerImpl implements AdoptionsControler {
             return new ResponseEntity<>(institution, HttpStatus.OK);
         }
         catch (InstitutionNotFoundException e) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+    }
+
+    @Override
+    @GetMapping(value = "/animals/{idAnimal}")
+    public ResponseEntity<AnimalDto> getAnimalById(@PathVariable String idAnimal) {
+        try {
+            AnimalDto animal = adoptionsMapper.animalModelToDTo(adoptionsService.findAnimal(idAnimal));
+            return new ResponseEntity<>(animal, HttpStatus.OK);
+        }
+        catch (AnimalNotFoundException e) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
     }

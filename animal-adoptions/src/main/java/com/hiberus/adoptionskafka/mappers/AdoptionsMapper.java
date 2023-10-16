@@ -1,7 +1,9 @@
 package com.hiberus.adoptionskafka.mappers;
 
 import com.hiberus.adoptionskafka.avro.InstitutionAnimalsValue;
+import com.hiberus.adoptionskafka.dto.AnimalDto;
 import com.hiberus.adoptionskafka.dto.InstitutionDto;
+import com.hiberus.adoptionskafka.models.Animal;
 import com.hiberus.adoptionskafka.models.Institution;
 import org.mapstruct.Mapper;
 
@@ -10,4 +12,6 @@ public interface AdoptionsMapper {
     Institution avroToModel(InstitutionAnimalsValue institutionAnimalsValue);
 
     InstitutionDto modelToDto(Institution institution);
+
+    AnimalDto animalModelToDTo(Animal animal);
 }

@@ -16,8 +16,13 @@ public interface AdoptionsControler {
     @ApiResponse(responseCode = "200", description = "Institutions successfully obtained")
     ResponseEntity<List<InstitutionDto>> getInstitutions();
 
-    @Operation(summary = "Get concrete institution by IdInstitution")
+    @Operation(summary = "Get concrete institution by idInstitution")
     @ApiResponse(responseCode = "200", description = "Institution successfully obtained")
     @ApiResponse(responseCode = "404", description = "Institution not found")
     ResponseEntity<InstitutionDto> getInstitutionById(@PathVariable String idInstitution);
+
+    @Operation(summary = "Get concrete animal by idAnimal")
+    @ApiResponse(responseCode = "200", description = "Animal successfully obtained")
+    @ApiResponse(responseCode = "404", description = "Animal not found")
+    ResponseEntity<AnimalDto> getAnimalById(@PathVariable String idAnimal);
 }

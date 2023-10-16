@@ -1,23 +1,26 @@
 package com.hiberus.adoptionskafka.services.impl;
 
+import com.hiberus.adoptionskafka.exceptions.AnimalNotFoundException;
 import com.hiberus.adoptionskafka.exceptions.InstitutionAlreadyExistsException;
 import com.hiberus.adoptionskafka.exceptions.InstitutionNotFoundException;
 import com.hiberus.adoptionskafka.models.Animal;
 import com.hiberus.adoptionskafka.models.Institution;
+import com.hiberus.adoptionskafka.repositories.AnimalsRepository;
 import com.hiberus.adoptionskafka.services.AdoptionsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.hiberus.adoptionskafka.repositories.InstitutionsRepository;
 
-import javax.management.InstanceAlreadyExistsException;
-import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
+
 
 @Service
 public class AdoptionsServiceImpl implements AdoptionsService {
     @Autowired
     InstitutionsRepository institutionsRepository;
+
+    @Autowired
+    AnimalsRepository animalsRepository;
 
     @Override
     public void saveInstitution(Institution institution) throws InstitutionAlreadyExistsException {
@@ -60,5 +63,10 @@ public class AdoptionsServiceImpl implements AdoptionsService {
     @Override
     public Institution findInstitution(String idInstitution) throws InstitutionNotFoundException {
         return institutionsRepository.findById(idInstitution).orElseThrow(InstitutionNotFoundException::new);
+    }
+
+    @Override
+    public Animal findAnimal(String idAnimal) throws AnimalNotFoundException {
+        return animalsRepository.findById(idAnimal).orElseThrow(AnimalNotFoundException::new);
     }
 }
