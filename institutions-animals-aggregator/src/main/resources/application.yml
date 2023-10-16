@@ -29,9 +29,9 @@ spring:
       kafka:
         binder:
           # Docker
-          # brokers: ${kafka:localhost}:29092
+          brokers: ${kafka:localhost}:29092
           # Local
-          brokers: ${kafka:localhost}:9092
+          # brokers: ${kafka:localhost}:9092
 
       kafka.streams:
 

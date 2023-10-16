@@ -6,7 +6,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     service-url:
-      default-zone: http://localhost:8761/eureka
+      default-zone: http://${eureka-server:localhost}:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     # This above is to have different names in case there are more than one instance
@@ -15,7 +15,10 @@ spring:
   application:
     name: animals-sender
   kafka:
-    bootstrap-servers: ${kafka:localhost}:9092
+    # Docker
+    bootstrap-servers: ${kafka:localhost}:29092
+    # Local
+    # bootstrap-servers: ${kafka:localhost}:9092
     producer:
       properties:
         key.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer

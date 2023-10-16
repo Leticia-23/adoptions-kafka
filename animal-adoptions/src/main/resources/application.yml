@@ -8,7 +8,7 @@ eureka:
     registerWithEureka: true
     fetchRegistry: true
     service-url:
-      default-zone: http://localhost:8761/eureka
+      default-zone: http://${eureka-server:localhost}:8761/eureka
   instance:
     instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
     # This above is to have different names in case there are more than one instance
@@ -32,9 +32,9 @@ spring:
       kafka:
         binder:
           # Docker
-          # brokers: ${kafka:localhost}:29092
+          brokers: ${kafka:localhost}:29092
           # Local
-          brokers: ${kafka:localhost}:9092
+          # brokers: ${kafka:localhost}:9092
 
       kafka.streams:
         bindings:
@@ -54,7 +54,7 @@ spring:
             default.value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
 
   datasource:
-    url: jdbc:postgresql://localhost:5432/adoptionsDB
+    url: jdbc:postgresql://${adoptions_db:localhost}:5432/adoptionsDB
     username: postgres
     password: admin123
     database-platform: org.hibernate.dialect.PostgreSQLDialect

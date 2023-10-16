@@ -91,9 +91,99 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
 
+  eureka-server:
+    build: ./eureka-server
+    container_name: eureka_server
+    restart: always
+    ports:
+      - "8761:8761"
+    environment:
+      - "kafka=kafka"
+      - "schema-registry=schema-registry"
+      - "eureka-server=eureka-server"
+
+  animals-sender:
+    build: ./animals-sender
+    container_name: animals_sender
+    restart: always
+    ports:
+      - "8082:8082"
+    environment:
+      - "kafka=kafka"
+      - "schema-registry=schema-registry"
+      - "eureka-server=eureka-server"
+    depends_on:
+      - eureka-server
+      - redpanda
+
+  animal-size-assigner:
+    build: ./animal-size-assigner
+    container_name: animal_size_assigner
+    restart: always
+    ports:
+      - "8083:8083"
+    environment:
+      - "kafka=kafka"
+      - "schema-registry=schema-registry"
+    depends_on:
+      - redpanda
+
+  institutions-sender:
+    build: ./institutions-sender
+    container_name: institutions_sender
+    restart: always
+    ports:
+      - "8084:8084"
+    environment:
+      - "kafka=kafka"
+      - "schema-registry=schema-registry"
+      - "eureka-server=eureka-server"
+    depends_on:
+      - eureka-server
+      - redpanda
+
+  institution-animal-leftjoin:
+    build: ./institution-animal-leftjoin
+    container_name: institution_animal_leftjoin
+    restart: always
+    ports:
+      - "8085:8085"
+    environment:
+      - "kafka=kafka"
+      - "schema-registry=schema-registry"
+    depends_on:
+      - redpanda
+
+  institutions-animals-aggregator:
+    build: ./institutions-animals-aggregator
+    container_name: institutions_animals_aggregator
+    restart: always
+    ports:
+      - "8086:8086"
+    environment:
+      - "kafka=kafka"
+      - "schema-registry=schema-registry"
+    depends_on:
+      - redpanda
+
+  animal-adoptions:
+    build: ./animal-adoptions
+    container_name: animal_adoptions
+    restart: always
+    ports:
+      - "8087:8087"
+    environment:
+      - "kafka=kafka"
+      - "schema-registry=schema-registry"
+      - "adoptions_db=adoptions_db"
+      - "eureka-server=eureka-server"
+    depends_on:
+      - eureka-server
+      - redpanda
+      - adoptions_db
+
 volumes:
   db-data:
-
 
 networks:
   default:

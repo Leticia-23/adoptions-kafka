@@ -5,7 +5,10 @@ spring:
   application:
     name: animalSize-assigner
   kafka:
-    bootstrap-servers: ${kafka:localhost}:9092
+    # Docker
+    bootstrap-servers: ${kafka:localhost}:29092
+    # Local
+    # bootstrap-servers: ${kafka:localhost}:9092
     consumer:
       group-id: ${spring.application.name}
       auto-offset-reset: earliest
