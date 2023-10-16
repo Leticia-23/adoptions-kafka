@@ -8,7 +8,7 @@
     </parent>
     <groupId>org.example</groupId>
     <artifactId>animal-size-assigner</artifactId>
-    <name>Archetype - animalSize-assigner</name>
+    <name>Archetype - animal-size-assigner</name>
     <url>http://maven.apache.org</url>
 
     <properties>
