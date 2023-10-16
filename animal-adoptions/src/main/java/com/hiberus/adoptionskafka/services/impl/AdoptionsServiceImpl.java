@@ -56,4 +56,9 @@ public class AdoptionsServiceImpl implements AdoptionsService {
     public List<Institution> findInstitutions(){
         return institutionsRepository.findAll();
     }
+
+    @Override
+    public Institution findInstitution(String idInstitution) throws InstitutionNotFoundException {
+        return institutionsRepository.findById(idInstitution).orElseThrow(InstitutionNotFoundException::new);
+    }
 }

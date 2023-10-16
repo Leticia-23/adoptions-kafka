@@ -16,4 +16,6 @@ public interface AdoptionsService {
     void deleteInstitution(String idInstitution) throws InstitutionNotFoundException;
 
     List<Institution> findInstitutions();
+
+    Institution findInstitution(String idInstitution) throws InstitutionNotFoundException;
 }
