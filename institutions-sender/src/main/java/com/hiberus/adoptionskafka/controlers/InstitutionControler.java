@@ -3,6 +3,7 @@ package com.hiberus.adoptionskafka.controlers;
 import com.hiberus.adoptionskafka.dto.InstitutionDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import org.springframework.http.ResponseEntity;
 
 
 public interface InstitutionControler {
@@ -13,9 +14,9 @@ public interface InstitutionControler {
 
     @Operation(summary = "Modify institution")
     @ApiResponse(responseCode = "202", description = "Request accepted")
-    void modifyInstitution(String idInstitution, InstitutionDto institutionDto);
+    ResponseEntity<String> modifyInstitution(String idInstitution, InstitutionDto institutionDto);
 
     @Operation(summary = "Delete institution")
     @ApiResponse(responseCode = "202", description = "Request accepted")
-    void deleteInstitution(String idInstitution);
+    ResponseEntity<String> deleteInstitution(String idInstitution);
 }

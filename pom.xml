@@ -21,6 +21,7 @@
         <module>institution-animal-leftjoin</module>
         <module>institutions-animals-aggregator</module>
         <module>animal-adoptions</module>
+        <module>eureka-server</module>
     </modules>
 	<properties>
 		<java.version>17</java.version>

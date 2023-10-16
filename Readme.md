@@ -9,6 +9,7 @@ Kafka project for Microservices Hiberus University
 # Documentation
 
 - Redpanda: http://localhost:8080
+- Eureka server: http://localhost:8761/
 - Animals API: http://localhost:8082/swagger-ui.html
 - Institutions API: http://localhost:8084/swagger-ui.html
 - Adoptions API: http://localhost:8087/swagger-ui.html

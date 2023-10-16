@@ -3,7 +3,7 @@ package com.hiberus.adoptionskafka.controlers;
 import com.hiberus.adoptionskafka.dto.AnimalDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
-
+import org.springframework.http.ResponseEntity;
 
 public interface AnimalControler {
 
@@ -13,9 +13,9 @@ public interface AnimalControler {
 
     @Operation(summary = "Modify animal")
     @ApiResponse(responseCode = "202", description = "Request accepted")
-    void modifyAnimal(String idAnimal, AnimalDto animalDto);
+    ResponseEntity<String> modifyAnimal(String idAnimal, AnimalDto animalDto);
 
     @Operation(summary = "Delete animal")
     @ApiResponse(responseCode = "202", description = "Request accepted")
-    void deleteAnimal(String idAnimal, AnimalDto animalDto);
+    ResponseEntity<String> deleteAnimal(String idAnimal, AnimalDto animalDto);
 }
