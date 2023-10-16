@@ -36,10 +36,26 @@ public class AnimalControlerImpl implements AnimalControler {
     @Override
     @PostMapping
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void createAnimal(@Valid @RequestBody AnimalDto animalDto) {
+    public ResponseEntity<String> createAnimal(@Valid @RequestBody AnimalDto animalDto) {
         log.info("Receive http petition for create animal");
-        animalDto.setEventType(EventType.POST);
-        animalService.createAnimal(animalDto);
+
+        try {
+            ResponseEntity<InstitutionDto> responseEntityInst = animalFeignService.checkInstitution(animalDto.getIdInstitution());
+            if (responseEntityInst.getStatusCode().is2xxSuccessful()) {
+                animalDto.setEventType(EventType.POST);
+                animalService.createAnimal(animalDto);
+                return new ResponseEntity<>(HttpStatus.ACCEPTED);
+            }
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (InstitutionNotFoundException e) {
+            return new ResponseEntity<>(gson.toJson(e.getMessage()),HttpStatus.NOT_FOUND);
+        } catch (AdoptionsMicroUnavailable e) {
+            return new ResponseEntity<>(gson.toJson(e.getMessage()), HttpStatus.SERVICE_UNAVAILABLE);
+        }
+
+
+
     }
 
     @Override
