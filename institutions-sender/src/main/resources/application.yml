@@ -22,5 +22,22 @@ spring:
         value.serializer: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerializer
         schema.registry.url: http://${schema-registry:localhost}:8081
 
+# Configuration to use circuit breaker
+resilience4j:
+  circuitbreaker:
+    configs:
+      shared:
+        sliding-window-type: count_based #Basado en contador
+        sliding-window-size: 5 #Número de llamadas fallidas permitidas
+        slow-call-rate-threshold: 50 #Porcentaje que vamos a permitir de llamadas fallidas o lentas
+        permitted-number-of-calls-in-half-open-state: 1 #Número de llamadas permitidas en el estado medio abierto
+        max-wait-duration-in-half-open-state: 10s #Tiempo de duración máximo del estado medio abierto
+        wait-duration-in-open-state: 10s #Tiempo duración estado abierto
+        writable-stack-trace-enabled: true #Logs por consola
+        automatic-transition-from-open-to-half-open-enabled: true
+    instances:
+      adoptions:
+        base-config: shared
+
 environment:
   institutions-topic: institutions
