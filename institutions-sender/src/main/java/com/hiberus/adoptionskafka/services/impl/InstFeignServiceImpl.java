@@ -22,36 +22,18 @@ public class InstFeignServiceImpl implements InstFeignService {
 
     private final InstitutionClient institutionClient;
 
+    @CircuitBreaker(name = "animal-adoptions", fallbackMethod = "fallBackCheckInstitution")
     public ResponseEntity<InstitutionDto> checkInstitution(String idInstitution) throws InstitutionNotFoundException,  AdoptionsMicroUnavailable {
-        try {
             return institutionClient.getInstitutionById(idInstitution);
-        } catch (Exception e) {
-            Throwable rootCause = getRootCause(e);
-
-            if (rootCause instanceof FeignException.NotFound) {
-                throw new InstitutionNotFoundException("Institution not found in DataBase");
-            } else if (rootCause instanceof ConnectException) {
-                throw new AdoptionsMicroUnavailable("Not connection with animal-adoptions microservice");
-            } else if (rootCause instanceof UnknownHostException) {
-                throw new AdoptionsMicroUnavailable("animal-adoptions microservice unknown");
-            } else {
-                throw new RuntimeException("Unexpected exception", e);
-            }
-        }
     }
 
-    /* @CircuitBreaker(name = "animal-adoptions", fallbackMethod = "fallBackCheckInstitution")
-    public ResponseEntity<InstitutionDto> checkInstitution(String idInstitution) throws InstitutionNotFoundException,  AdoptionsMicroUnavailable {
-            return institutionClient.getInstitutionById(idInstitution);
-    } */
-
-   /* private void fallBackCheckInstitution(String idInstitution, Throwable throwable) throws Throwable {
+   private ResponseEntity<InstitutionDto> fallBackCheckInstitution(String idInstitution, Throwable throwable) throws Throwable {
         log.error("Exception Feign Client: " + throwable.getMessage());
 
         Throwable rootCause = getRootCause(throwable);
 
         if (rootCause instanceof FeignException.NotFound) {
-            throw new InstitutionNotFoundException("Institution not found microservice");
+            throw new InstitutionNotFoundException("Institution not found in DataBase");
         } else if (rootCause instanceof ConnectException) {
             throw new AdoptionsMicroUnavailable("Not connection with animal-adoptions microservice");
         } else if (rootCause instanceof UnknownHostException) {
@@ -60,7 +42,7 @@ public class InstFeignServiceImpl implements InstFeignService {
             throw throwable;
         }
 
-    }*/
+    }
 
     private Throwable getRootCause(Throwable throwable) {
         Throwable rootCause = throwable;
