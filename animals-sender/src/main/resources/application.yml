@@ -1,6 +1,16 @@
 server:
   port: 8082
 
+eureka:
+  client:
+    registerWithEureka: true
+    fetchRegistry: true
+    service-url:
+      default-zone: http://localhost:8761/eureka
+  instance:
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    # This above is to have different names in case there are more than one instance
+
 spring:
   application:
     name: animals-sender
