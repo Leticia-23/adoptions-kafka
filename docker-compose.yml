@@ -22,6 +22,8 @@ services:
       - schema-registry
       - zookeeper
     restart: always
+    networks:
+      - adoptions-kafka
 
   zookeeper:
     image: confluentinc/cp-zookeeper:6.1.1
@@ -33,6 +35,8 @@ services:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
     restart: always
+    networks:
+      - adoptions-kafka
 
   kafka:
     image: confluentinc/cp-enterprise-kafka:6.1.1
@@ -65,6 +69,8 @@ services:
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     restart: always
+    networks:
+      - adoptions-kafka
 
   schema-registry:
     image: confluentinc/cp-schema-registry:6.1.1
@@ -78,6 +84,8 @@ services:
     depends_on:
       - kafka
     restart: always
+    networks:
+      - adoptions-kafka
 
   adoptions_db:
     image: postgres
@@ -90,6 +98,8 @@ services:
       POSTGRES_DB: adoptionsDB
     volumes:
       - db-data:/var/lib/postgresql/data
+    networks:
+      - adoptions-kafka
 
   eureka-server:
     build: ./eureka-server
@@ -100,7 +110,8 @@ services:
     environment:
       - "kafka=kafka"
       - "schema-registry=schema-registry"
-      - "eureka-server=eureka-server"
+    networks:
+      - adoptions-kafka
 
   animals-sender:
     build: ./animals-sender
@@ -115,6 +126,8 @@ services:
     depends_on:
       - eureka-server
       - redpanda
+    networks:
+      - adoptions-kafka
 
   animal-size-assigner:
     build: ./animal-size-assigner
@@ -127,6 +140,8 @@ services:
       - "schema-registry=schema-registry"
     depends_on:
       - redpanda
+    networks:
+      - adoptions-kafka
 
   institutions-sender:
     build: ./institutions-sender
@@ -141,6 +156,8 @@ services:
     depends_on:
       - eureka-server
       - redpanda
+    networks:
+      - adoptions-kafka
 
   institution-animal-leftjoin:
     build: ./institution-animal-leftjoin
@@ -153,6 +170,8 @@ services:
       - "schema-registry=schema-registry"
     depends_on:
       - redpanda
+    networks:
+      - adoptions-kafka
 
   institutions-animals-aggregator:
     build: ./institutions-animals-aggregator
@@ -165,6 +184,8 @@ services:
       - "schema-registry=schema-registry"
     depends_on:
       - redpanda
+    networks:
+      - adoptions-kafka
 
   animal-adoptions:
     build: ./animal-adoptions
@@ -181,13 +202,11 @@ services:
       - eureka-server
       - redpanda
       - adoptions_db
+    networks:
+      - adoptions-kafka
 
 volumes:
   db-data:
 
 networks:
-  default:
-    name: adoptions-kafka
-
-
-# TODO: fail to connect eureka-server with 3 clients eureka
+  adoptions-kafka:
