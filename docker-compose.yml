@@ -110,6 +110,7 @@ services:
     environment:
       - "kafka=kafka"
       - "schema-registry=schema-registry"
+      - "eureka-server=eureka-server"
     networks:
       - adoptions-kafka
 
