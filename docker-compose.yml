@@ -101,7 +101,6 @@ services:
     environment:
       - "kafka=kafka"
       - "schema-registry=schema-registry"
-      - "eureka-server=eureka-server"
 
   animals-sender:
     build: ./animals-sender
@@ -187,5 +186,4 @@ volumes:
   db-data:
 
 networks:
-  default:
-    name: adoptions-kafka
+  local:
